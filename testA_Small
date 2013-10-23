@@ -1,0 +1,46 @@
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/A-small-practice.in') as f :
+    content = f.readlines()
+    tmpSum = int(content[1+3*(1-1)])
+    tmpList = content[3+3*(1-1)].split()
+    sortList = [int(x) for x in tmpList]
+    sortList.sort(reverse = True)
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/A-large-practice.in') as f1 :
+    content1 = f1.readlines()
+    tmpSum1 = int(content1[1+3*(1-1)])
+    tmpList1 = content1[3+3*(1-1)].split()
+    sortList1 = [int(x) for x in tmpList]
+    sortList1.sort(reverse = True)
+def findTerms(seq,target):
+    for i in range(len(seq)):
+        if seq[i] <target and filter(lambda x: x == (target-seq[i]),seq[:i]+seq[i+1:]):
+            temp = [seq[i]]+ filter(lambda x: x == (target-seq[i]),seq)
+            return(temp)
+out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/A-small-practice_output.txt','w')
+out_f1 = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/A-small-practice_output1.txt','w')
+     
+##terms = findTerm(sortList,tmpSum)
+##output1 = [tmpList.index(str(terms[0]))+1]+[tmpList.index(str(terms[1]))+1]
+##output1.sort
+##out1 = 'Case #'+ str(1) +':'+ ' '+str(output1[0])+' '+str(output1[1])
+output=[]
+for i in range (1, int(content[0])+1):
+    tmpSum = int(content[1+3*(i-1)])
+    print(tmpSum)
+    tmpList = content[3+3*(i-1)].split()
+    sortList = map(int,tmpList)
+    sortList.sort(reverse = True)
+    terms = findTerms(sortList,tmpSum)
+    print(terms)
+    term1 =tmpList.index(str(terms[0]))
+    term2 = 1+(tmpList[:term1]+tmpList[term1+1:]).index(str(terms[1]))
+    tmpout = [term1+1]+[term2+1]
+    
+    tmpout.sort
+    out = 'Case #'+ str(i) +':'+ ' '+str(tmpout[0])+' '+str(tmpout[1])
+    out_f.write(str(out)+'\n')
+    output.append([out])
+    print out
+print output
+for l in output:
+    out_f1.write(str(l)+'\n')
+

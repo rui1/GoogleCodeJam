@@ -1,0 +1,89 @@
+
+def getRows(content,n):
+    start = 0
+    end = 0
+    for i in range(1, n+1):
+        start = 1+end
+        end=int(content[start].split()[0])+start
+    acStart = start+1
+    acEnd = end +1
+    rows = []
+    for i in range(acStart,acEnd):
+        rows.append(list(content[i].split()))
+    #print start
+    #print end
+    #print 'case'+ str(n)
+    #print rows
+    return rows
+
+def getColumn(rows):
+    cols = []
+    colNm = len(rows[0])
+    for i in range(0,colNm):
+        tmp =[]
+        for j in range(0,len(rows)):
+            tmp.append(rows[j][i])
+        cols.append(list(tmp))
+    #print cols
+    return cols
+    
+def largerExist(Nb,square):
+    for i in range(0, len(Nb)):
+        if int(Nb[i])>int(square):
+            #print str(i)
+            #print 'exist'
+            return True
+    #print 'NotExist'
+    return False
+
+
+    
+def checkPossible(rows):
+    colLen = len(rows[0])
+    rowLen = len(rows)
+    cols = getColumn(rows)
+    #print 'RowLen = '
+    #print rowLen
+    #print 'ColLen ='
+    #print colLen
+    for i in range(0,rowLen):
+        #print 'row'
+        #print i
+        for j in range(0, colLen):
+            #print 'col'
+            #print j
+            tmp = rows[i][j]
+            row = rows[i]
+            col = cols[j]
+            if largerExist(row, tmp) and largerExist(col,tmp):
+                #print 'impossible'
+                return False
+    return True
+           
+
+def run(content):
+    out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/'+str(content[-1]).strip()[-1]+'output_B.txt','w')
+    print str(content[-1]).strip()[-1]
+
+    for i in range(1,int(content[0])+1):
+        outtmp = 'Case #'+str(i)+':'+' '
+        pattern = getRows(content, i)
+        if checkPossible(pattern):
+            outtmp+='YES'
+        else:
+            outtmp+='NO'
+        out_f.write(outtmp+'\n')
+        #print outtmp
+    
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/B-small-practice_2013QR.in') as f :
+    content = f.readlines()
+run(content)
+
+
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/B-large-practice_2013QR.in') as f1 :
+    content1 = f1.readlines()
+
+run(content1)
+a = getRows(content1, 22)
+
+checkPossible(a)

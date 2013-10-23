@@ -1,0 +1,39 @@
+import string
+
+letter = list(string.ascii_lowercase)
+zLetter = letter.pop(letter.index('z'))
+sLetter = letter.pop(letter.index('s'))
+lookUpDict = {}
+for i in range(2,10):
+    lookUpDict[letter[3*(i-2)]]= str(i).strip()
+    lookUpDict[letter[1+3*(i-2)]] = str(int(lookUpDict[letter[3*(i-2)]])+i*10).strip()
+    lookUpDict[letter[2+3*(i-2)]] = str(int(lookUpDict[letter[3*(i-2)+1]])+i*100).strip()
+lookUpDict[zLetter]=str(9999).strip()
+lookUpDict[sLetter]=str(7777).strip()
+lookUpDict[' '] = '0'
+
+
+def spellinghelper(item):
+    out = ""
+    for s in item:
+        tmpS = lookUpDict[s]
+        if len(out)>0 and tmpS[-1]==out[-1] and tmpS [-1]!=0:
+            out += " "
+        out += tmpS
+    return out
+def spelling(content):
+    out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/'+str(content[-1]).strip()[-1]+'output_C.txt','w')        
+    for i in range(1, int(content[0])+1):
+        tmp = content[i].replace('\n','')
+        tmpout = spellinghelper(tmp)
+        out = 'Case #'+str(i)+':'+' '+str(tmpout).strip()
+        out_f.write(out+'\n')
+        #print tmpout
+
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/C-small-practice_Africa_Quali.in') as f :
+    content = f.readlines()
+spelling(content)
+
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/C-large-practice_Africa_Quali.in') as f1 :
+    content1 = f1.readlines()
+spelling(content1)

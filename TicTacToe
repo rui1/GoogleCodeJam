@@ -1,0 +1,78 @@
+
+over = False    
+def IsEmpty(game):
+    for line in game:
+        if '.' in line:
+            return True
+    return False
+
+def IsWon(game,symbol):
+    global over
+    for line in game:
+        if line.count(symbol)==4 or (line.count(symbol)==3 and 'T' in line):
+            over = True
+            return True
+    return False
+
+def getRows(content,n):
+    start = 1+5*(n-1)
+    rows = content[start:4+start]
+    return rows
+
+def getColumn(rows):
+    cols = []
+    for i in range(0,len(rows)):
+        tmp =''
+        for row in rows:
+            tmp+=row[i]
+        cols.append(tmp)
+    return cols
+
+def getDiag(rows):
+    diag = []
+    tmp1 = ''
+    tmp2 = ''
+    for i in range(0,len(rows)):
+        tmp1+=rows[i][i]
+        tmp2+=rows[i][len(rows)-1-i]
+    diag.append(tmp1)
+    diag.append(tmp2)
+    return diag
+    
+def states(game):
+    global over
+    if IsWon(game,'X'):
+        print'm'
+        return 'X won'
+    if IsWon(game,'O'):
+        print 'l'
+        return 'O won'
+    if not(over) and IsEmpty(game):
+        print'n'
+        return 'Game has not completed'
+    if not(IsEmpty(game)):
+        print 'x'
+        return 'Draw'
+
+def run(content):
+    global over
+    out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/'+str(content[0]).strip()+'output.txt','w')
+    for i in range(1, int(content[0])+1):
+        over = False
+        tmp ='Case #'+str(i)+':'+' '
+        game = getRows(content, i)
+        columns = getColumn(game)
+        diagnal = getDiag(game)
+        game+=columns
+        game+=diagnal
+        tmp += states(game)
+        out_f.write(tmp+'\n')
+        print tmp
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/A-small-practice_2013QR.in') as f :
+    content = f.readlines()
+run(content)
+
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/A-large-practice_2013QR.in') as f1 :
+    content1 = f1.readlines()
+run(content1)
+

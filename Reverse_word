@@ -1,0 +1,21 @@
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/B-small-practice.in') as f :
+    content = f.readlines()
+
+
+def reverse_word(content):
+    out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/'+str(content[0]).strip()+'output_B.txt','w')    
+    for i in range(1, int(content[0])+1):
+        tmp = content[i].split()
+        tmp.reverse()
+        out = 'Case #'+str(i)+':'
+        for letter in tmp:
+            out = out+ ' '+letter
+        out_f.write(str(out)+'\n')
+        print out
+
+reverse_word(content)
+
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/B-large-practice.in') as f1 :
+    content1 = f1.readlines()
+
+reverse_word(content1)
