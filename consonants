@@ -1,0 +1,101 @@
+def getWords(content, n):
+    return content[n].replace('\n','').split()[0]
+vowels= ['a','e','i','o','u']
+
+def getN(content, n):
+    return int(content[n].replace('\n','').split()[1])
+debug = False
+def ConsonIndex(words):
+    indexList = []
+    tmpwords=list(words)
+    if debug:
+        print 'length of word is'
+        print len(tmpwords)
+    for i in range(len(tmpwords)):
+        if tmpwords[i] not in vowels:
+            indexList.append(tmpwords.index(tmpwords[i]))
+            tmpwords[i] = '9'
+            if debug:
+                print 'word is '
+                print tmpwords[i]
+                print 'IndexList:'
+                print indexList
+                print 'words now is'
+                print tmpwords            
+    return indexList
+                                                   
+debug1 = False
+def SplitIndex(ConsonIndexs):
+    spl = [0]+[i for i in range(1,len(ConsonIndexs)) if ConsonIndexs[i]-ConsonIndexs[i-1]>1]+[None]
+    SplitList  = [ConsonIndexs[b:e] for (b, e) in [(spl[i-1],spl[i]) for i in range(1,len(spl))]]
+    return SplitList
+
+def filterIndex(splitIndexs,n):
+    resultList=[]
+    for j in range(len(splitIndexs)):
+        if len(splitIndexs[j])>n:
+            for i in range(len(splitIndexs[j])-n+1):
+                resultList.append(splitIndexs[j][i:i+n])
+        if len(splitIndexs[j])==n:
+            resultList.append(splitIndexs[j])  
+    return resultList
+
+def NmSubs(filteredIndexs,words):
+    num =0
+    for j in range(len(filteredIndexs)):
+        if j == 0:
+            num += (len(words)-filteredIndexs[j][-1])*(filteredIndexs[j][0]+1)
+        elif j !=0 and filteredIndexs[j][0]-filteredIndexs[j-1][0]!=1:
+            num += (len(words)- filteredIndexs[j][-1])*(filteredIndexs[j][0]-filteredIndexs[j-1][0])
+    return num
+
+def newNmSubs(words,n):
+    num = 0
+    current = 0
+    l = len(words)
+    count = 0
+    for j in range(l):
+        if words[j] in vowels:
+            count = 0
+        else: count+=1
+        if count == n:
+            count-=1
+            num +=(j-n+2-current)*(l-j)
+            current = j-n+2
+    return num
+
+def run1(content, size):
+    out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/'+size+'output_A.txt','w')
+    for i in range(1,int(content[0])+1):
+        out = 'Case #'+str(i)+':'+' '
+        words = getWords(content,i)
+        n = getN(content, i)
+        num = newNmSubs(words, n)
+        out+=str(num)
+        out_f.write(out+'\n')
+        print out
+    
+def run(content,size):
+    out_f = open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/'+size+'output_A.txt','w')
+
+    for i in range(1,int(content[0])+1):
+        out = 'Case #'+str(i)+':'+' '
+        words = getWords(content,i)
+        n  = getN(content,i)
+        ConsonIndexs = ConsonIndex(words)
+        splitIndexs = SplitIndex(ConsonIndexs)
+        filteredIndexs = filterIndex(splitIndexs, n)
+        subs = NmSubs(filteredIndexs, words)
+        out += str(subs)
+        out_f.write(out+'\n')
+        print out
+    
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/consonants_small_input.in') as f :
+    content = f.readlines()
+#run(content,'small')
+run1(content, 'small')
+
+with open('C:/Users/Rui/Desktop/ProgrammingAssign/code_jam/consonants_large_input.in') as f1 :
+    content1 = f1.readlines()
+run1(content1, 'large')
+#run(content1,'small')
